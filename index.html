@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eco-Trator: Corrida Sustentável | Agrinho</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="jogo-container">
+        <div class="painel-superior">
+            <div class="info-bloco">🌾 Pontos: <span id="pontuacao">0</span></div>
+            <div class="info-bloco-vida">
+                🌱 Sustentabilidade: 
+                <div class="barra-vida-fundo">
+                    <div id="barra-vida" style="width: 100%;"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="tela-inicio" class="tela-sobreposta">
+            <h2>Eco-Trator 🚜</h2>
+            <p><strong>Tema:</strong> Agro forte, futuro sustentável!</p>
+            <div class="instrucoes">
+                <p><strong>Como Jogar:</strong> Use as setas ⬅️ e ➡️ (ou as teclas A e D) para mover o trator.</p>
+                <p class="bom">🟩 <strong>Colete:</strong> Mudas de Árvores (🌳) e Energia Solar (☀️)</p>
+                <p class="ruim">🟥 <strong>Desvie:</strong> Queimadas (🔥) e Poluição (💨)</p>
+            </div>
+            <button id="btn-jogar">Iniciar Corrida</button>
+        </div>
+
+        <div id="tela-fim" class="tela-sobreposta escondido">
+            <h2>Fim da Safra! 👨‍🌾</h2>
+            <p>Sua propriedade ficou sem recursos sustentáveis.</p>
+            <p><strong>Pontuação Final:</strong> <span id="pontos-finais">0</span></p>
+            <button id="btn-reiniciar">Tentar Novamente</button>
+        </div>
+
+        <div class="pista" id="pista">
+            <div id="jogador" class="trator">🚜</div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

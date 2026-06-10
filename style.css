@@ -1,0 +1,162 @@
+document.addEventListener('DOMContentLoaded', () => {
+
+    const listaEventos = [
+        {
+            estacao: "Outono (1/4)",
+            titulo: "Preparação do Solo",
+            descricao: "Chegou a hora de preparar a terra para o grande plantio de grãos. Qual método vai adotar na sua propriedade?",
+            opcoes: [
+                {
+                    texto: "A) Queima controlada dos restos vegetais para limpar o terreno rápido.",
+                    efeitoProd: 20,
+                    efeitoSust: -40
+                },
+                {
+                    texto: "B) Plantio Direto sobre a palha da colheita anterior, protegendo o solo.",
+                    efeitoProd: 10,
+                    efeitoSust: 30
+                }
+            ]
+        },
+        {
+            estacao: "Inverno (2/4)",
+            titulo: "Combate a Pragas e Insetos",
+            descricao: "Uma pequena praga começou a surgir nas folhas da plantação jovem. Como vai resolver o problema?",
+            opcoes: [
+                {
+                    texto: "A) Aplicar defensivos químicos fortes em toda a área para eliminar tudo imediatamente.",
+                    efeitoProd: 30,
+                    efeitoSust: -30
+                },
+                {
+                    texto: "B) Utilizar controle biológico (predadores naturais) e monitoramento focado.",
+                    efeitoProd: 15,
+                    efeitoSust: 25
+                }
+            ]
+        },
+        {
+            estacao: "Primavera (3/4)",
+            titulo: "Gestão de Recursos Hídricos",
+            descricao: "A previsão indica uma época de pouca chuva na região do Paraná. Como lidará com a irrigação?",
+            opcoes: [
+                {
+                    texto: "A) Ligar os pivôs de irrigação ao máximo usando água de poços sem monitoramento.",
+                    efeitoProd: 25,
+                    efeitoSust: -25
+                },
+                {
+                    texto: "B) Implementar gotejamento inteligente aliado à conservação de matas ciliares próximas.",
+                    efeitoProd: 15,
+                    efeitoSust: 30
+                }
+            ]
+        },
+        {
+            estacao: "Verão (4/4)",
+            titulo: "A Grande Colheita e Destinação",
+            descricao: "A colheita foi um sucesso! O que fará com as embalagens plásticas e restos da safra?",
+            opcoes: [
+                {
+                    texto: "A) Descartar as embalagens num canto da fazenda e vender toda a produção sem certificação.",
+                    efeitoProd: 15,
+                    efeitoSust: -30
+                },
+                {
+                    texto: "B) Fazer a devolução correta das embalagens (Logística Reversa) e criar adubo orgânico com os restos.",
+                    efeitoProd: 10,
+                    efeitoSust: 35
+                }
+            ]
+        }
+    ];
+
+    let rodadaAtual = 0;
+    let producao = 100;
+    let sustentabilidade = 100;
+
+    const txtProducao = document.getElementById('pontos-producao');
+    const txtSustentavel = document.getElementById('pontos-sustentavel');
+    const txtRodada = document.getElementById('rodada-atual');
+    const txtTitulo = document.getElementById('evento-titulo');
+    const txtDescricao = document.getElementById('evento-descricao');
+
+    const btnOpcao1 = document.getElementById('btn-opcao-1');
+    const btnOpcao2 = document.getElementById('btn-opcao-2');
+
+    const painelEvento = document.getElementById('painel-evento');
+    const telaFinal = document.getElementById('tela-final');
+    const btnReiniciar = document.getElementById('btn-reiniciar');
+
+    function carregarRodada() {
+        if (rodadaAtual < listaEventos.length) {
+            const evento = listaEventos[rodadaAtual];
+            
+            txtRodada.innerText = evento.estacao;
+            txtTitulo.innerText = evento.titulo;
+            txtDescricao.innerText = evento.descricao;
+            
+            btnOpcao1.innerText = evento.opcoes[0].texto;
+            btnOpcao2.innerText = evento.opcoes[1].texto;
+        } else {
+            exibirFimDeJogo();
+        }
+    }
+
+    function processarEscolha(indiceOpcao) {
+        const dadosOpcao = listaEventos[rodadaAtual].opcoes[indiceOpcao];
+
+        producao += dadosOpcao.efeitoProd;
+        sustentabilidade += dadosOpcao.efeitoSust;
+
+        txtProducao.innerText = producao;
+        txtSustentavel.innerText = sustentabilidade;
+
+        rodadaAtual++;
+        carregarRodada();
+    }
+
+    function exibirFimDeJogo() {
+        if (painelEvento) painelEvento.classList.add('escondido');
+        if (telaFinal) telaFinal.classList.remove('escondido');
+
+        const finalProd = document.getElementById('final-prod');
+        const finalSust = document.getElementById('final-sust');
+        if (finalProd) finalProd.innerText = producao;
+        if (finalSust) finalSust.innerText = sustentabilidade;
+
+        const msgFinal = document.getElementById('mensagem-final');
+        if (msgFinal) {
+            if (sustentabilidade >= 150 && producao >= 130) {
+                msgFinal.innerHTML = "🏆 <strong>Excelente! Propriedade Modelo!</strong> Conseguiu produzir muito forte respeitando a natureza. O equilíbrio perfeito foi alcançado!";
+                msgFinal.style.color = "#2e7d32";
+            } else if (sustentabilidade < 100) {
+                msgFinal.innerHTML = "⚠️ <strong>Aviso de Esgotamento!</strong> A sua produção foi alta, mas o meio ambiente sofreu muito. Sem solo e água preservados, a propriedade falirá no próximo ano.";
+                msgFinal.style.color = "#c05621";
+            } else {
+                msgFinal.innerHTML = "👍 <strong>Bom Trabalho!</strong> Conseguiu manter a quinta ativa e a salvo, mas com um pouco mais de tecnologia sustentável poderia produzir ainda mais.";
+                msgFinal.style.color = "#2b6cb0";
+            }
+        }
+    }
+
+    function reiniciarJogo() {
+        rodadaAtual = 0;
+        producao = 100;
+        sustentabilidade = 100;
+        
+        txtProducao.innerText = producao;
+        txtSustentavel.innerText = sustentabilidade;
+        
+        if (telaFinal) telaFinal.classList.add('escondido');
+        if (painelEvento) painelEvento.classList.remove('escondido');
+        
+        carregarRodada();
+    }
+
+    if (btnOpcao1) btnOpcao1.addEventListener('click', () => processarEscolha(0));
+    if (btnOpcao2) btnOpcao2.addEventListener('click', () => processarEscolha(1));
+    if (btnReiniciar) btnReiniciar.addEventListener('click', reiniciarJogo);
+
+    carregarRodada();
+});
